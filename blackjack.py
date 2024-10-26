@@ -16,21 +16,21 @@ ranks = ['2','3','4','5','6','7','8','9','JACK','QUEEN','KING','ACE']
 values = {'2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9,
 'JACK':10, 'QUEEN':10,'KING':10, 'ACE':11}
 
-# Combine ranks and suits to build a deck of cards
-deck = [] # this will contain all your cards
-for s in suits:
-    for r in ranks: 
-        deck.append([r, s])
-# print(deck)
+# # Combine ranks and suits to build a deck of cards
+# deck = [] # this will contain all your cards
+# for s in suits:
+#     for r in ranks: 
+#         deck.append([r, s])
+# # print(deck)
 
-# Shuffle the deck
-for i in range(10):
-    random.shuffle(deck)
-# print(deck)
+# # Shuffle the deck
+# for i in range(10):
+#     random.shuffle(deck)
+# # print(deck)
 
-# Initialize hands for the player and the banker
-player_hand = [deck.pop(), deck.pop()]
-banker_hand = [deck.pop(), deck.pop()]
+# # Initialize hands for the player and the banker
+# player_hand = [deck.pop(), deck.pop()]
+# banker_hand = [deck.pop(), deck.pop()]
 
 # print(player_hand)
 # print(banker_hand)
@@ -107,15 +107,35 @@ def display_hand(hand, turn):
     # banker_show
 
 while wallet > 0:
+    print("You have {} credits".format(wallet))
     game_start = input("Type p to play or q to quit: ").lower()
 
     if game_start == "p":
-        bet = int(input("input amount: "))
-        if bet >= wallet:
-            break
-        else:
-            print("you do not have enough money in your wallet.")
-            print("Wallet: ${}".format(wallet))
+        while True:
+            bet = int(input("input amount: "))
+            if bet > wallet:
+                break
+            else:
+                print("you do not have enough money in your wallet.")
+                print("Wallet: ${}".format(wallet))
+        # Combine ranks and suits to build a deck of cards
+        deck = [] # this will contain all your cards
+        player_hand  = []
+        banker_hand  = []
+        
+        for s in suits:
+            for r in ranks: 
+                deck.append([r, s])
+        # print(deck)
+
+        # Shuffle the deck
+        for i in range(10):
+            random.shuffle(deck)
+        # print(deck)
+
+        # Initialize hands for the player and the banker
+        player_hand = [deck.pop(), deck.pop()]
+        banker_hand = [deck.pop(), deck.pop()]
 
         while True:
             display_hand(banker_hand, "banker_show")
@@ -148,6 +168,7 @@ while wallet > 0:
                         display_hand(player_hand, "player")
                         print("Banker busted")
                         print("you win")
+                        wallet += bet
                         break
                     else:
                         player_score = calculate_hand(player_hand)
@@ -168,6 +189,7 @@ while wallet > 0:
     elif game_start == "q":
         print("BYe")
         break
+
 
 
 # Function to calculate the value of a hand
